@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link href="/css/screen.css" rel="stylesheet" />
+    <title></title>
+  </head>
+  <style>
+p {
+  
+  padding:8px;
+  font-size: 20px;
+  font-weight: bolder;
+  color: white;
+  font-family: Consolas;
+  text-align: center;
+}
+
+span {
+  color: red;
+}
+
+canvas
+{
+  border: 2px solid blue;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Stili per il Game Over Screen */
+.game-over-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.game-over-container {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border: 3px solid #ff6b6b;
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(255, 107, 107, 0.5);
+  max-width: 400px;
+  width: 90%;
+}
+
+.game-over-title {
+  color: #ff6b6b;
+  font-size: 48px;
+  font-weight: bold;
+  font-family: Consolas;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.game-over-score {
+  color: #ffd93d;
+  font-size: 24px;
+  font-family: Consolas;
+  margin-bottom: 30px;
+}
+
+.game-over-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.game-over-btn {
+  background: linear-gradient(45deg, #4ecdc4, #44a08d);
+  border: none;
+  color: white;
+  padding: 15px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: Consolas;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.game-over-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(45deg, #44a08d, #4ecdc4);
+}
+
+.game-over-btn.exit {
+  background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+}
+
+.game-over-btn.exit:hover {
+  background: linear-gradient(45deg, #ee5a52, #ff6b6b);
+}
+
+/* Stili per le istruzioni di orientamento mobile */
+.orientation-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  flex-direction: column;
+}
+
+.orientation-container {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  border: 3px solid #4ecdc4;
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(78, 205, 196, 0.5);
+  max-width: 400px;
+  width: 90%;
+  margin-bottom: 20px;
+}
+
+.orientation-icon {
+  font-size: 80px;
+  margin-bottom: 20px;
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(90deg); }
+}
+
+.orientation-title {
+  color: #4ecdc4;
+  font-size: 32px;
+  font-weight: bold;
+  font-family: Consolas;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.orientation-text {
+  color: #ffffff;
+  font-size: 18px;
+  font-family: Consolas;
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+
+.orientation-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.orientation-btn {
+  background: linear-gradient(45deg, #4ecdc4, #44a08d);
+  border: none;
+  color: white;
+  padding: 12px 25px;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: Consolas;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.orientation-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(45deg, #44a08d, #4ecdc4);
+}
+
+.orientation-btn.secondary {
+  background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+}
+
+.orientation-btn.secondary:hover {
+  background: linear-gradient(45deg, #ee5a52, #ff6b6b);
+}
+
+.orientation-choice {
+  color: #ffd93d;
+  font-size: 14px;
+  font-family: Consolas;
+  margin-top: 20px;
+}
+
+.orientation-checkbox {
+  margin-right: 8px;
+  transform: scale(1.2);
+}
+  </style>
+  <body bgcolor="black">
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+    <script src="logic.js"></script>
+  
+    <p><strong>Score:&nbsp;</strong><spa id="score">0</span></p>
+    <p><strong>Lives:&nbsp;</strong><span id="lives">❤️ ❤️ ❤️</span></p>
+    
+    <!-- Game Over Screen -->
+    <div id="gameOverOverlay" class="game-over-overlay">
+      <div class="game-over-container">
+        <div class="game-over-title">GAME OVER</div>
+        <div class="game-over-score">Punteggio Finale: <span id="finalScore">0</span></div>
+        <div class="game-over-buttons">
+          <button class="game-over-btn" onclick="restartGame()">🔄 Riprova</button>
+          <button class="game-over-btn exit" onclick="exitGame()">❌ Esci</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Orientation Instructions -->
+    <div id="orientationOverlay" class="orientation-overlay">
+      <div class="orientation-container">
+        <div class="orientation-icon">📱</div>
+        <div class="orientation-title">Ruota il Telefono</div>
+        <div class="orientation-text">
+          Per una migliore esperienza di gioco,<br>
+          ruota il tuo dispositivo in modalità orizzontale
+        </div>
+        <div class="orientation-buttons">
+          <button class="orientation-btn" onclick="hideOrientationInstructions()">✅ Ho Capito</button>
+          <button class="orientation-btn secondary" onclick="continueInPortrait()">▶️ Continua</button>
+        </div>
+        <div class="orientation-choice">
+          <input type="checkbox" id="dontShowAgain" class="orientation-checkbox">
+          <label for="dontShowAgain">Non mostrare più questo messaggio</label>
+        </div>
+      </div>
+    </div>
+  
+  </body>
+</html>
